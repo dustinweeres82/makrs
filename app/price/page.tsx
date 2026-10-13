@@ -26,7 +26,7 @@ export default function PricePage() {
             </h1>
 
             <p className="text-pine text-lg md:text-xl mt-6 max-w-md">
-              See what your handmade product actually costs to make — materials, your
+              See what your handmade product actually costs to make: materials, your
               time, and the sneaky stuff nobody counts.
             </p>
 

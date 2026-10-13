@@ -15,7 +15,8 @@ type SignupGateStepProps = {
   wholesale: number
   email: string
   onEmailChange: (v: string) => void
-  onSubmit: () => void
+  /** Saves the lead + sends the email. The price reveals once this settles, success or not. */
+  onSubmit: (consent: boolean) => Promise<void>
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
@@ -52,8 +53,7 @@ function Revealed({
               Here&rsquo;s the math.<br /><span className="text-poppy">You&rsquo;re welcome.</span>
             </h1>
             <p className="text-pine text-lg mt-4 max-w-sm">
-              A copy is on its way, with an editable link so you can tweak it whenever your
-              supply costs move.
+              A copy is on its way to your inbox. Supply costs move? Run it again any time.
             </p>
           </div>
         }
@@ -83,13 +83,19 @@ export function SignupGateStep({
   onSubmit,
 }: SignupGateStepProps) {
   const [revealed, setRevealed] = useState(false)
-  const [earlyAccess, setEarlyAccess] = useState(true)
+  const [earlyAccess, setEarlyAccess] = useState(false)
   const valid = EMAIL_RE.test(email)
 
-  function submit() {
-    if (!valid) return
-    onSubmit()
-    setRevealed(true)
+  const [sending, setSending] = useState(false)
+
+  async function submit() {
+    if (!valid || sending) return
+    setSending(true)
+    try {
+      await onSubmit(earlyAccess)
+    } finally {
+      setRevealed(true)
+    }
   }
 
   if (revealed) {
@@ -105,13 +111,13 @@ export function SignupGateStep({
         Your price is<br /><span className="text-poppy">ready.</span>
       </h1>
       <p className="text-pine text-lg mt-4 max-w-sm">
-        Tell us where to send it and we&rsquo;ll unlock your number — plus the full breakdown,
+        Tell us where to send it and we&rsquo;ll unlock your number, plus the full breakdown,
         saved so you&rsquo;re not rebuilding it at 11pm the night before a market.
       </p>
       <ul className="mt-6 flex flex-col gap-3">
         {[
           'Retail and wholesale price',
-          'Full cost breakdown, PDF + editable link',
+          'Full cost breakdown, sent to your inbox',
           'Early access when the full app opens',
         ].map((t) => (
           <li key={t} className="flex items-center gap-3">
@@ -135,11 +141,12 @@ export function SignupGateStep({
           aria-hidden
         >
           <p className="type-third text-sm text-pine/60">Your suggested retail</p>
-          <p className="type-heading text-5xl text-poppy mt-1">${retail}</p>
+          {/* Placeholder values only: the real numbers never render until the email is in. */}
+          <p className="type-heading text-5xl text-poppy mt-1">$88</p>
           <div className="flex flex-wrap gap-x-6 gap-y-1 mt-3 type-body text-sm">
-            <span>Cost ${cost.toFixed(2)}</span>
-            <span>Margin {marginPct}%</span>
-            <span>Wholesale ${wholesale}</span>
+            <span>Cost $00.00</span>
+            <span>Margin 00%</span>
+            <span>Wholesale $00</span>
           </div>
         </div>
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
@@ -175,11 +182,12 @@ export function SignupGateStep({
           />
           <span className="type-body text-sm">Yes, send me early access and the odd pricing tip</span>
         </label>
-        <Button variant="primary" size="lg" withChevron className="w-full" disabled={!valid} onClick={submit}>
-          Show me my price
+        <Button variant="primary" size="lg" withChevron className="w-full" disabled={!valid || sending} onClick={submit}>
+          {sending ? 'Unlocking…' : 'Show me my price'}
         </Button>
         <p className="type-body text-xs italic text-pine/50">
-          No spam, unsubscribe anytime. Your numbers stay yours.
+          No spam, unsubscribe anytime. Your numbers stay yours.{' '}
+          <a href="/privacy" target="_blank" className="underline not-italic">Privacy policy</a>
         </p>
       </div>
     </div>

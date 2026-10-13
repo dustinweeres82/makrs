@@ -239,9 +239,25 @@ export function CalculatorWizard() {
         wholesale={wholesale}
         email={state.email}
         onEmailChange={(email) => set({ email })}
-        onSubmit={() => {
-          // TODO: submit email + pricing to Supabase/Resend.
-          console.log('save pricing', state.email, pricing.retail)
+        onSubmit={async (consent) => {
+          try {
+            await fetch('/api/lead', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: state.email,
+                consent,
+                category: CATEGORIES.find((c) => c.id === state.category)?.label ?? 'Other',
+                retail: Math.round(pricing.retail),
+                cost: pricing.totalCost,
+                marginPct: state.marginPct,
+                wholesale,
+              }),
+            })
+          } catch (err) {
+            // Never hold their price hostage to a network blip.
+            console.error('lead save failed', err)
+          }
         }}
       />
     )

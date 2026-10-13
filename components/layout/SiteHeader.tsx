@@ -9,11 +9,11 @@ export function SiteHeader() {
   return (
     <header className="px-4 pt-4">
       <div className="max-w-6xl mx-auto bg-poppy rounded-pill flex items-center justify-between pl-7 pr-3 py-3">
-        <Link href="/" className="type-secondary text-xl text-salt">
+        <a href="https://makrsmode.com" className="type-secondary text-xl text-salt">
           Mak&rsquo;rs Mode
-        </Link>
+        </a>
         <Link
-          href="/#waitlist"
+          href="/price/start"
           className="inline-flex items-center gap-2 bg-salt rounded-pill pl-5 pr-4 py-2.5 hover:bg-white transition-colors"
         >
           <span className="type-third text-xs text-poppy">Get early access</span>

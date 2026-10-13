@@ -48,9 +48,9 @@ export function CalculatingStep({
   onDoneRef.current = onDone
 
   const rows: CalcRow[] = [
-    { label: 'Adding up your materials', value: `$${materials.toFixed(2)}`, status: "Materials first — that's the easy part." },
+    { label: 'Adding up your materials', value: `$${materials.toFixed(2)}`, status: "Materials first. That's the easy part." },
     { label: `Costing your time at $${hourlyRate}/hr`, value: `$${labour.toFixed(2)}`, status: 'Counting the hours you usually forget to charge for.' },
-    { label: 'Spreading your monthly overhead', value: `$${overhead.toFixed(2)}`, status: 'Rent, tools, subscriptions — divided across what you make.' },
+    { label: 'Spreading your monthly overhead', value: `$${overhead.toFixed(2)}`, status: 'Rent, tools, subscriptions, divided across what you make.' },
     { label: 'Adding marketplace + payment fees', value: `$${fees.toFixed(2)}`, status: 'The fees that quietly eat the rest.' },
     { label: 'Checking a healthy margin range', value: '50–75%', status: 'Almost there. Sanity-checking against the market.' },
   ]
@@ -77,7 +77,7 @@ export function CalculatingStep({
         Doing the math<br />you&rsquo;ve been <span className="text-poppy">avoiding.</span>
       </h1>
       <p className="text-pine text-lg mt-4 max-w-sm">
-        Hang tight — we&rsquo;re putting every number you gave us in its place.
+        Hang tight. We&rsquo;re putting every number you gave us in its place.
       </p>
       <p className="type-tagline italic text-pine/50 text-sm mt-3">
         Usually about five seconds. Don&rsquo;t refresh.

@@ -123,7 +123,7 @@ export function MaterialsStep({ materials, onAdd, onUpdate, onRemove }: Material
         What goes<br />in <span className="text-poppy">it?</span>
       </h1>
       <p className="type-body text-base mt-4 max-w-sm">
-        Add what you buy and how much of it goes into one product — we&rsquo;ll work out the
+        Add what you buy and how much of it goes into one product. We&rsquo;ll work out the
         cost per piece and total it up.
       </p>
     </div>
