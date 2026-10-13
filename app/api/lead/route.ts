@@ -82,6 +82,7 @@ export async function POST(req: Request) {
       .send({
         from: process.env.RESEND_FROM ?? "Mak'rs Mode <hello@makrsmode.com>",
         to: lead.email,
+        ...(process.env.RESEND_REPLY_TO ? { replyTo: process.env.RESEND_REPLY_TO } : {}),
         subject,
         html,
         text,

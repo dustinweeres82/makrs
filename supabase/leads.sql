@@ -15,3 +15,8 @@ create table if not exists public.leads (
 
 -- Lock it down: only the server (service role key) can read/write. No public access.
 alter table public.leads enable row level security;
+
+-- "Automatically expose new tables" is OFF, so grant access to the server key only.
+-- The public (anon) key gets nothing: nobody can read the email list from a browser.
+grant usage on schema public to service_role;
+grant select, insert on public.leads to service_role;
