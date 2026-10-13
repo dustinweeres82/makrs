@@ -2,29 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-  Hertical Sans 800 — self-hosted, paid licence.
-  Font files go in /public/fonts/hertical/.
-  Ask Kandis for: hertical-sans-800.woff2 and hertical-sans-800.woff
-*/
-@font-face {
-  font-family: 'Hertical Sans';
-  src:
-    url('/fonts/hertical/hertical-sans-800.woff2') format('woff2'),
-    url('/fonts/hertical/hertical-sans-800.woff')  format('woff');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
+/* Typeface: Inter (loaded via next/font in app/layout.tsx → --font-inter). */
 
 /* Design token CSS variables — mirrors Tailwind brand colours */
 :root {
-  --color-text-primary:        #1C4A4A;
-  --color-text-secondary:      rgba(28, 74, 74, 0.70);
-  --color-text-tertiary:       rgba(28, 74, 74, 0.40);
-  --color-background-primary:  #FFFFFF;
-  --color-background-secondary:#F5F0E8;
-  --color-border-tertiary:     rgba(28, 74, 74, 0.12);
+  --color-poppy:      #F04D2A;
+  --color-candy:      #F5A7BC;
+  --color-honey:      #E8A820;
+  --color-pear:       #CCD580;
+  --color-pine:       #1C4A4A;
+  --color-cornflower: #BAC8E8;
+  --color-thistle:    #D6B2CA;
+  --color-salt:       #F7F4F0;
+
+  --color-text-primary:         #1C4A4A;
+  --color-text-secondary:       rgba(28, 74, 74, 0.70);
+  --color-text-tertiary:        rgba(28, 74, 74, 0.40);
+  --color-background-primary:   #FFFFFF;
+  --color-background-secondary: #F7F4F0;
+  --color-border-tertiary:      rgba(28, 74, 74, 0.12);
+  --slider-track:               #E7EAE5;
 }
 
 @layer base {
@@ -39,9 +36,79 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Remove default blue focus ring — replaced per component */
   :focus-visible {
-    outline: 2px solid #1C4A4A;
+    outline: 2px solid var(--color-pine);
     outline-offset: 2px;
+  }
+}
+
+/*
+  Typography roles — the five levels from the brand board.
+  Apply as classes so every surface uses the same rules instead of
+  re-deriving font/weight/case ad hoc.
+*/
+@layer components {
+  /* H1 · Inter 800 · UPPERCASE · Poppy or Pine — headlines, prices, title labels */
+  .type-heading {
+    @apply font-hertical font-extrabold uppercase text-pine leading-[1.05] tracking-[-0.01em];
+  }
+
+  /* H2 · Inter 700 · UPPERCASE · Pine — section titles, key numbers */
+  .type-secondary {
+    @apply font-sans font-bold uppercase text-pine tracking-[0.02em] leading-tight;
+  }
+
+  /* H3 · Inter 600 · UPPERCASE · Pine — cards, buttons, navigation */
+  .type-third {
+    @apply font-sans font-semibold uppercase text-pine tracking-[0.03em] leading-tight;
+  }
+
+  /* H4 · Inter 400 · Sentence case · Pine — taglines */
+  .type-tagline {
+    @apply font-sans font-normal text-pine leading-snug;
+  }
+
+  /* Body · Inter 400 · Sentence case · Pine — descriptions, tips, metadata */
+  .type-body {
+    @apply font-sans font-normal text-pine/80 leading-relaxed;
+  }
+
+  /*
+    Range slider — pear fill, white thumb, inset track.
+    The fill %% is applied inline via a linear-gradient background (see Slider.tsx).
+  */
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: var(--slider-track);
+    box-shadow: inset 0 1px 3px rgba(28, 74, 74, 0.14);
+    cursor: pointer;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(28, 74, 74, 0.28);
+    border: none;
+    cursor: pointer;
+  }
+  .slider::-moz-range-thumb {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 9999px;
+    background: #ffffff;
+    box-shadow: 0 2px 6px rgba(28, 74, 74, 0.28);
+    border: none;
+    cursor: pointer;
+  }
+  .slider:focus-visible {
+    outline: 2px solid var(--color-pine);
+    outline-offset: 3px;
   }
 }
